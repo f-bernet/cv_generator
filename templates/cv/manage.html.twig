@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title 'Mes données de CV' %}
+
+{% block body %}
+    <h1>Gestion du CV</h1>
+
+    {{ form_start(formUser) }}
+        <div class='form-manage-cv'>
+            <div class='data-cv-errors'>
+                {% if errorsUser %}
+                    <div class='data-cv-errors-user'>
+                    {% for e in errorsUser %}
+                        <div class='data-cv-error-user'>{{ e.message }}</div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-data-manage-cv">
+                <h2>Networks</h2>
+                <div class="manage-networks">{{ form_row(formUser.networks) }}</div>
+
+                <h2>Experiences</h2>
+                <div class="manage-experiences">{{ form_row(formUser.experiences) }}</div>
+
+                <h2>Diplomes</h2>
+                <div class="manage-diplomes">{{ form_row(formUser.diplomes) }}</div>
+
+                <h2>Compétences</h2>
+                <div class="manage-competences">{{ form_row(formUser.competences) }}</div>
+            </div>
+
+            <div class="form-button-manage-cv">
+                <a href='{{ path("cv.create") }}' class='return-manage-cv'>Retour</a>
+                {{ form_row(formUser.save) }}
+            </div>
+        </div>
+    {{ form_end(formUser) }}
+{% endblock %}

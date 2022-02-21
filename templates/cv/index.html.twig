@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espace CV{% endblock %}
+
+{% block body %}
+    <h1>Mon espace CV</h1>
+
+    <div class="cv-cards">
+        {# new cv #}
+        <a href="{{ path('cv.create') }}" class='cv-card'>
+            <img class='img-cv' src='/images/cv/cv.png'>
+            <h3 class='title-cv'>Nouveau CV</h3>
+        </a>
+
+        {# listing cv #}
+        {% if cvs %}
+            {% for cv in cvs %}
+                <a href="{{ path('cv.generate', {id: cv.id}) }}" class='cv-card'>
+                    <img class='img-cv' src='/images/cv/cv.png'>
+                    <h3 class='title-cv'>CV {{ cv.id }}</h3>
+                </a>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

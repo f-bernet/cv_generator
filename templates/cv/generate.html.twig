@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% set trans_month_hash = { 
+        "01": "janvier", 
+        "02": "février", 
+        "03": "mars", 
+        "04": "avril", 
+        "05": "mai", 
+        "06": "juin", 
+        "07": "juillet" ,
+        "08": "août" ,
+        "09": "septembre" ,
+        "10": "octobre" ,
+        "11": "novembre" ,
+        "12": "décembre" 
+    } 
+%}
+
+{% block title 'Génération du CV' %}
+
+{% block body %}
+    <h1>Génération du CV</h1>
+
+    {% if cv %}
+        <div class="cv-generate">
+            <div class="cv-generate-left">
+                <h2>Informations personnelles</h2>
+                <div class="cv-generate-perso">
+                    <div>{{ cv.cvuser.nom }} {{ cv.cvuser.prenom }}</div>
+                    <div>{{ cv.cvuser.mail }}</div>
+                    <div>{{ cv.cvuser.address }}</div>
+                    <div>{{ cv.cvuser.postalcode }}</div>
+                    <div>{{ cv.cvuser.city }}</div>
+                    <div>{{ cv.cvuser.birthdate|date('d-m-Y') }}</div>
+                    <div>{{ cv.cvuser.phonenumber }}</div>
+                </div>
+            </div>
+
+            <div class="cv-generate-right">
+                <h2>Diplômes</h2>
+                <div class="cv-generate-diplomes">
+                    {% for diplome in cv.cvdiplomes %}
+                        <div class="cv-generate-diplome">
+                            <div class="cv-generate-diplome-year">{{ diplome.year }}</div>
+                            <div class="cv-generate-diplome-infos">
+                                <div class="cv-generate-diplome-title">{{ diplome.title }}</div>
+                                <div class="cv-generate-diplome-localisation">{{ diplome.localisation }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h2>Expériences</h2>
+                <div class="cv-generate-experiences">
+                    {% for experience in cv.cvexperiences %}
+                        <div class="cv-generate-experience">
+                            <div class="cv-generate-experience-year">De {{ trans_month_hash[experience.datestart|date('m')] }} {{ experience.datestart|date('Y') }} à {{ trans_month_hash[experience.dateend|date('m')] }} {{ experience.dateend|date('Y') }}</div>
+                            <div class="cv-generate-experience-infos">
+                                <div class="cv-generate-experience-title">{{ experience.title }}</div>
+                                <div class="cv-generate-experience-description">{{ experience.description }}</div>
+                                <div class="cv-generate-experience-company">{{ experience.company }}</div>
+                                <div class="cv-generate-experience-localisation">{{ experience.localisation }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h2>Compétences</h2>
+                <div class="cv-generate-competences">
+                    {% for competence in cv.cvcompetences %}
+                        <div class="cv-generate-competence">
+                            <div class="cv-generate-competence-title">{{ competence.title }}</div>
+                            <div class="cv-generate-competence-description">{{ competence.description }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <h2>Networks</h2>
+                <div class="cv-generate-networks">
+                    {% for network in cv.cvnetworks %}
+                        <div class="cv-generate-network">
+                            <a href="{{ network.url }}">{{ network.name }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

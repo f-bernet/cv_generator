@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+{% block title 'Mes données de CV' %}
+
+{% block body %}
+    <h1>Mes données de CV</h1>
+    {{ form_start(formUser) }}
+        <div class='form-data-cv'>
+            <div class='data-cv-errors'>
+                {% if errorsUser %}
+                    <div class='data-cv-errors-user'>
+                    {% for e in errorsUser %}
+                        <div class='data-cv-error-user'>{{ e.message }}</div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <h2>Données utilisateur</h2>
+            <div class='data-form-data-cv-user'>
+                <div class='form-data-cv-user-nom'>{{ form_row(formUser.nom) }}</div>
+                <div class='form-data-cv-user-prenom'>{{ form_row(formUser.prenom) }}</div>
+                <div class='form-data-cv-user-mail'>{{ form_row(formUser.mail) }}</div>
+                <div class='form-data-cv-user-phone_number'>{{ form_row(formUser.phone_number) }}</div>
+                <div class='form-data-cv-user-address'>{{ form_row(formUser.address) }}</div>
+                <div class='form-data-cv-user-postal_code'>{{ form_row(formUser.postal_code) }}</div>
+                <div class='form-data-cv-user-city'>{{ form_row(formUser.city) }}</div>
+                <div class='form-data-cv-user-birth_date'>{{ form_row(formUser.birth_date) }}</div>
+            </div>
+
+            
+            <h2>Network</h2>
+            <div class="data-form-data-cv-networks">
+                <div class="networks_form"
+                    data-index="{{ formUser.networks|length > 0 ? formUser.networks|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(formUser.networks.vars.prototype)|e('html_attr') }}"
+                >
+                    {% if formUser.networks|length == 0 %}
+                        {{ form(formUser.networks) }}
+                    {% else %}
+                        {% set i = 0 %}
+                        {% for network in formUser.networks %}
+                            <div class="data-form-data-cv-network">
+                                <div id="user_networks_{{ i }}">
+                                    {{ form_row(network.name) }}
+                                    {{ form_row(network.url) }}
+                                </div>
+                            </div>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="add_item_link" id="network" data-collection-holder-class="networks_form">+</div>
+            </div>
+
+            <h2>Expérience</h2>
+            <div class="data-form-data-cv-experiences">
+                <div class="experiences_form"
+                    data-index="{{ formUser.experiences|length > 0 ? formUser.experiences|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(formUser.experiences.vars.prototype)|e('html_attr') }}"
+                >
+                    {% if formUser.experiences|length == 0 %}
+                        {{ form(formUser.experiences) }}
+                    {% else %}
+                        {% set i = 0 %}
+                        {% for experience in formUser.experiences %}
+                            <div class="data-form-data-cv-experience">
+                                <div id="user_experiences_{{ i }}">
+                                    {{ form_row(experience.date_start) }}
+                                    {{ form_row(experience.date_end) }}
+                                    {{ form_row(experience.company) }}
+                                    {{ form_row(experience.localisation) }}
+                                    {{ form_row(experience.title) }}
+                                    {{ form_row(experience.description) }}
+                                </div>
+                            </div>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="add_item_link" id="experience" data-collection-holder-class="experiences_form">+</div>
+            </div>
+
+            <h2>Diplôme et formation</h2>
+            <div class="data-form-data-cv-diplomes">
+                <div class="diplomes_form"
+                    data-index="{{ formUser.diplomes|length > 0 ? formUser.diplomes|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(formUser.diplomes.vars.prototype)|e('html_attr') }}"
+                >
+                    {% if formUser.diplomes|length == 0 %}
+                        {{ form(formUser.diplomes) }}
+                    {% else %}
+                        {% set i = 0 %}
+                        {% for diplome in formUser.diplomes %}
+                            <div class="data-form-data-cv-diplome">
+                                <div id="user_diplomes_{{ i }}">
+                                    {{ form_row(diplome.year) }}
+                                    {{ form_row(diplome.title) }}
+                                    {{ form_row(diplome.localisation) }}
+                                </div>
+                            </div>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="add_item_link" id="diplome" data-collection-holder-class="diplomes_form">+</div>
+            </div>
+
+            <h2>Compétence</h2>
+            <div class="data-form-data-cv-competences">
+                <div class="competences_form"
+                    data-index="{{ formUser.competences|length > 0 ? formUser.competences|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(formUser.competences.vars.prototype)|e('html_attr') }}"
+                >
+                    {% if formUser.competences|length == 0 %}
+                        {{ form(formUser.competences) }}
+                    {% else %}
+                        {% set i = 0 %}
+                        {% for competence in formUser.competences %}
+                            <div class="data-form-data-cv-competence">
+                                <div id="user_competences_{{ i }}">
+                                    {{ form_row(competence.title) }}
+                                    {{ form_row(competence.description) }}
+                                </div>
+                            </div>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="add_item_link" id="competence" data-collection-holder-class="competences_form">+</div>
+            </div>
+
+            <div class="button-create-cv">
+                <a href='{{ path("app_cv") }}' class='return-data-cv'>Retour</a>
+                {{ form_row(formUser.save) }}
+                {{ form_row(formUser.saveAndManage) }}
+            </div>
+        </div>
+    {{ form_end(formUser) }}
+
+{# <div class='form-cv-create-images'>
+    <div class='form-cv-create-upload-img'>{{ form_row(formUser.img) }}</div>
+    <div class='form-cv-create-listing-img'>
+    {% if images is defined and images is not empty %}
+        {% for img in images %}
+            <img class='form-cv-create-img' src='{{ img.pathImgProperty }}' alt='property-img'>
+        {% endfor %}
+    {% endif %}
+    </div>
+</div> #}
+{% endblock %}
